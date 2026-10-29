@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover delicious recipes, explore new meals, and save your favorite dishes with RecipeFinder.">
+  <title>RecipeFinder | Discover Recipes You'll Love</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a class="brand" href="index.html" aria-label="RecipeFinder home">
+        <span class="brand-icon" aria-hidden="true">🍴</span>
+        <span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a class="active" href="index.html">Home</a>
+        <a href="recipes.html">Explore Recipes</a>
+        <a href="favorites.html">Favorites</a>
+      </nav>
+      <div class="auth-links">
+        <a class="btn btn-outline" href="login.html">Login</a>
+        <a class="btn btn-orange" href="signup.html">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">FRESH RECIPES <span>•</span> BETTER LIVING</p>
+          <h1>Discover Recipes <span>You'll Love</span></h1>
+          <p class="hero-description">Explore delicious recipes, find your favorite meals, and make cooking easier and more fun!</p>
+          <a class="btn btn-orange hero-button" href="recipes.html"><span aria-hidden="true">⌕</span> Explore Recipes <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-photo-wrap">
+          <img class="hero-photo" src="images/hero-pasta.jpg" alt="A bowl of pasta with chicken, tomatoes, and fresh basil">
+          <div class="food-note">Good Food<br><strong>Good Life</strong> ♡</div>
+        </div>
+        <span class="decor decor-one" aria-hidden="true">✳</span>
+        <span class="decor decor-two" aria-hidden="true">✦</span>
+      </div>
+    </section>
+
+    <section class="search-section container" aria-label="Find a recipe">
+      <form class="search-bar" action="recipes.html" method="get">
+        <label class="search-input"><span aria-hidden="true">⌕</span><input type="search" name="q" placeholder="Search for a recipe..." aria-label="Search recipes by name or ingredient"></label>
+        <label class="course-select"><span class="sr-only">Recipe course</span>
+          <select name="course">
+            <option value="">All Courses</option>
+            <option value="Appetizer">Appetizer</option>
+            <option value="Main Course">Main Course</option>
+            <option value="Dessert">Dessert</option>
+          </select>
+        </label>
+        <button class="btn btn-green search-button" type="submit">Search</button>
+      </form>
+    </section>
+
+    <section class="popular-section container">
+      <div class="section-heading">
+        <h2><span class="leaf" aria-hidden="true">❧</span> Popular Recipes</h2>
+        <a href="recipes.html" class="text-link">View All Recipes <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="recipe-grid">
+        <article class="recipe-card">
+          <a href="recipe-details.html" class="card-image"><img src="images/chicken-pasta.jpg" alt="Creamy chicken pasta"></a>
+          <div class="card-content"><span class="tag tag-main">Main Course</span><h3>Creamy Chicken Pasta</h3><a class="card-button" href="recipe-details.html">View Recipe <span>→</span></a></div>
+        </article>
+        <article class="recipe-card">
+          <a href="recipe-details.html" class="card-image"><img src="images/pancakes.jpg" alt="Fluffy pancakes topped with berries"></a>
+          <div class="card-content"><span class="tag tag-dessert">Dessert</span><h3>Fluffy Pancakes</h3><a class="card-button" href="recipe-details.html">View Recipe <span>→</span></a></div>
+        </article>
+        <article class="recipe-card">
+          <a href="recipe-details.html" class="card-image"><img src="images/greek-salad.jpg" alt="Fresh Greek salad with tomatoes and cucumber"></a>
+          <div class="card-content"><span class="tag tag-appetizer">Appetizer</span><h3>Greek Salad</h3><a class="card-button" href="recipe-details.html">View Recipe <span>→</span></a></div>
+        </article>
+        <article class="recipe-card">
+          <a href="recipe-details.html" class="card-image"><img src="images/chocolate-cake.jpg" alt="A slice of chocolate cake"></a>
+          <div class="card-content"><span class="tag tag-dessert">Dessert</span><h3>Chocolate Cake</h3><a class="card-button" href="recipe-details.html">View Recipe <span>→</span></a></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">🍴</span><span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
+      </a>
+      <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
+      <div><h3>Quick Links</h3><a href="index.html">Home</a><a href="recipes.html">Explore Recipes</a><a href="favorites.html">Favorites</a></div>
+      <div><h3>About Us</h3><a href="#about">Our Story</a><a href="#contact">Contact Us</a><a href="#faq">FAQ</a></div>
+      <div><h3>Follow Us</h3><div class="social-links"><a href="#facebook" aria-label="Facebook">f</a><a href="#instagram" aria-label="Instagram">◎</a><a href="#youtube" aria-label="YouTube">▶</a></div></div>
+    </div>
+    <div class="container copyright">© 2026 RecipeFinder. All rights reserved.</div>
+  </footer>
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('show');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  </script>
+</body>
+</html>
