@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorites - Recipe Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="index.html" class="brand">
+                <div class="brand-icon" aria-hidden="true">🍴</div>
+                <div class="brand-copy">
+                    <strong>Recipe<span>Finder</span></strong>
+                    <small>Good Food &bull; Happy Mood</small>
+                </div>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
+            <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse Recipes</a>
+                <a href="favorites.html" class="active">Favorites</a>
+            </nav>
+
+            <div class="auth-links">
+                <button type="button" class="btn btn-outline" style="cursor: default;">Role: User</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="popular-section">
+        <div class="container">
+            <div class="section-heading" style="margin-bottom: 28px;">
+                <h2><span class="leaf" aria-hidden="true">🌿</span> My Saved Favorites</h2>
+                <span class="text-link">3 Recipes Saved</span>
+            </div>
+
+            <div class="recipe-grid">
+                <!-- Recipe Card 1 -->
+                <article class="recipe-card">
+                    <a href="recipe-details.html" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80" alt="Tomato Soup">
+                    </a>
+                    <div class="card-content">
+                        <span class="tag tag-appetizer">Appetizer</span>
+                        <h3>Classic Creamy Tomato Soup</h3>
+                        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-1024</p>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="recipe-details.html" class="card-button" style="flex: 1;">View Recipe</a>
+                            <button type="button" class="btn" style="height: 35px; border: 1px solid #e0b3b0; background: #fdf2f2; border-radius: 12px; color: #d9383a; font-size: 12px; font-weight: 600; padding: 0 12px;">Remove</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 2 -->
+                <article class="recipe-card">
+                    <a href="recipe-details.html" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=500&q=80" alt="Garlic Salmon">
+                    </a>
+                    <div class="card-content">
+                        <span class="tag tag-main">Main Course</span>
+                        <h3>Garlic Butter Salmon</h3>
+                        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-1088</p>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="recipe-details.html" class="card-button" style="flex: 1;">View Recipe</a>
+                            <button type="button" class="btn" style="height: 35px; border: 1px solid #e0b3b0; background: #fdf2f2; border-radius: 12px; color: #d9383a; font-size: 12px; font-weight: 600; padding: 0 12px;">Remove</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 3 -->
+                <article class="recipe-card">
+                    <a href="recipe-details.html" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" alt="Chocolate Lava Cake">
+                    </a>
+                    <div class="card-content">
+                        <span class="tag tag-dessert">Dessert</span>
+                        <h3>Dark Chocolate Lava Cake</h3>
+                        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-2015</p>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="recipe-details.html" class="card-button" style="flex: 1;">View Recipe</a>
+                            <button type="button" class="btn" style="height: 35px; border: 1px solid #e0b3b0; background: #fdf2f2; border-radius: 12px; color: #d9383a; font-size: 12px; font-weight: 600; padding: 0 12px;">Remove</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <a class="brand footer-brand" href="index.html">
+                <span class="brand-icon" aria-hidden="true">🍴</span>
+                <span class="brand-copy">
+                    <strong>Recipe<span>Finder</span></strong>
+                    <small>Good Food &bull; Happy Mood</small>
+                </span>
+            </a>
+            <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
+            <div>
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Explore Recipes</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+            <div>
+                <h3>About Us</h3>
+                <a href="#">Our Story</a>
+                <a href="#">Contact Us</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div>
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">o</a>
+                    <a href="#">▶</a>
+                </div>
+            </div>
+        </div>
+        <div class="container copyright">
+            <p>&copy; 2026 Recipe Finder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                const isOpen = navLinks.classList.toggle('show');
+                menuToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+    </script>
+
+</body>
+</html>
