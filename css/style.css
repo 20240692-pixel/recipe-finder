@@ -473,6 +473,94 @@ img {
     background: #edf5ed
 }
 
+/* --- Recipe Details Page Styling Additions --- */
+.detail-article {
+    padding: 36px;
+    background: #fffdf9;
+}
+
+.detail-heading-bar {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    margin-bottom: 30px;
+    align-items: flex-start;
+}
+
+.detail-heading-bar .tag {
+    position: static;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.detail-title-text {
+    font: 700 36px/1.2 'Playfair Display', Georgia, serif;
+    color: var(--green-dark);
+    margin: 0 0 8px;
+    letter-spacing: -0.5px;
+}
+
+.detail-meta-text {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.detail-layout-grid {
+    grid-template-columns: 320px 1fr;
+    gap: 36px;
+    align-items: start;
+}
+
+.ingredients-panel {
+    background: var(--cream-deep);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.ingredients-panel h2,
+.instructions-panel h2 {
+    font: 700 22px 'Playfair Display', Georgia, serif;
+    color: var(--green-dark);
+    margin: 0 0 16px;
+}
+
+.ingredients-table-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredients-table-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #d8d0c1;
+    font-size: 14px;
+}
+
+.ingredients-table-list li:last-child {
+    border-bottom: none;
+}
+
+.instruction-step-item {
+    margin-bottom: 20px;
+}
+
+.instruction-step-item h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green);
+    margin: 0 0 4px;
+}
+
+.instruction-step-item p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #35483e;
+    margin: 0;
+}
+
 .site-footer {
     background: #f3ecdd;
     padding-top: 23px
@@ -725,6 +813,10 @@ img {
     .card-content h3 {
         font-size: 13px;
         min-height: 38px
+    }
+
+    .detail-layout-grid {
+        grid-template-columns: 1fr;
     }
 
     .footer-grid {
