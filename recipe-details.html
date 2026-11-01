@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details - Recipe Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="index.html" class="brand">
+                <div class="brand-icon" aria-hidden="true">🍴</div>
+                <div class="brand-copy">
+                    <strong>Recipe<span>Finder</span></strong>
+                    <small>Good Food &bull; Happy Mood</small>
+                </div>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
+            <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="browse.html" class="active">Browse Recipes</a>
+                <a href="favorites.html">Favorites</a>
+            </nav>
+
+            <div class="auth-links">
+                <button type="button" class="btn btn-outline btn-static">Role: User</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="popular-section">
+        <div class="container">
+            <article class="recipe-card detail-article">
+                
+                <div class="section-heading detail-heading-bar">
+                    <div>
+                        <span class="tag tag-appetizer">Appetizer</span>
+                        <h1 class="detail-title-text">Classic Creamy Tomato Soup</h1>
+                        <p class="detail-meta-text">Recipe ID: REC-1024 &bull; Course: Appetizer</p>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-orange">
+                            <span>♥</span> Remove from Favorites
+                        </button>
+                    </div>
+                </div>
+
+                <div class="recipe-grid detail-layout-grid">
+                    <aside class="ingredients-panel">
+                        <h2>Ingredients</h2>
+                        <ul class="ingredients-table-list">
+                            <li><span>Fresh Tomatoes</span> <strong>1 kg</strong></li>
+                            <li><span>Olive Oil</span> <strong>2 tbsp</strong></li>
+                            <li><span>Minced Garlic</span> <strong>4 cloves</strong></li>
+                            <li><span>Yellow Onion</span> <strong>1 medium</strong></li>
+                            <li><span>Vegetable Broth</span> <strong>500 ml</strong></li>
+                            <li><span>Heavy Cream</span> <strong>100 ml</strong></li>
+                            <li><span>Fresh Basil</span> <strong>10 leaves</strong></li>
+                            <li><span>Salt & Pepper</span> <strong>To taste</strong></li>
+                        </ul>
+                    </aside>
+
+                    <section class="instructions-panel">
+                        <h2>Preparation Instructions</h2>
+                        
+                        <div class="instruction-step-item">
+                            <h3>Step 1: Roast the Tomatoes</h3>
+                            <p>Preheat oven to 200°C (400°F). Halve tomatoes, toss with 1 tbsp olive oil, salt, and pepper. Roast on a baking sheet for 25 minutes until tender and charred.</p>
+                        </div>
+
+                        <div class="instruction-step-item">
+                            <h3>Step 2: Sauté Aromatics</h3>
+                            <p>In a large pot, heat remaining olive oil over medium heat. Add chopped onions and garlic, cooking until soft and translucent (about 5 minutes).</p>
+                        </div>
+
+                        <div class="instruction-step-item">
+                            <h3>Step 3: Simmer & Blend</h3>
+                            <p>Add roasted tomatoes and vegetable broth to the pot. Simmer for 10 minutes, blend until smooth using an immersion blender, then stir in heavy cream and fresh basil leaves.</p>
+                        </div>
+                    </section>
+                </div>
+
+            </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <a class="brand footer-brand" href="index.html">
+                <span class="brand-icon" aria-hidden="true">🍴</span>
+                <span class="brand-copy">
+                    <strong>Recipe<span>Finder</span></strong>
+                    <small>Good Food &bull; Happy Mood</small>
+                </span>
+            </a>
+            <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
+            <div>
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Explore Recipes</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+            <div>
+                <h3>About Us</h3>
+                <a href="#">Our Story</a>
+                <a href="#">Contact Us</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div>
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">o</a>
+                    <a href="#">▶</a>
+                </div>
+            </div>
+        </div>
+        <div class="container copyright">
+            <p>&copy; 2026 Recipe Finder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                const isOpen = navLinks.classList.toggle('show');
+                menuToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+    </script>
+
+</body>
+</html>
