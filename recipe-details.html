@@ -3,89 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Details - Recipe Finder</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Recipe Details - RecipeFinder</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <header class="site-header">
         <div class="container navbar">
-            <a href="index.html" class="brand">
-                <div class="brand-icon" aria-hidden="true">🍴</div>
-                <div class="brand-copy">
+            <a href="index.html" class="brand" aria-label="RecipeFinder home">
+                <span class="brand-icon" aria-hidden="true">🍴</span>
+                <span class="brand-copy">
                     <strong>Recipe<span>Finder</span></strong>
                     <small>Good Food &bull; Happy Mood</small>
-                </div>
+                </span>
             </a>
 
             <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
             <nav class="nav-links" id="navLinks" aria-label="Main navigation">
                 <a href="index.html">Home</a>
-                <a href="browse.html" class="active">Browse Recipes</a>
+                <a href="recipes.html">Explore Recipes</a>
                 <a href="favorites.html">Favorites</a>
             </nav>
 
             <div class="auth-links">
-                <button type="button" class="btn btn-outline btn-static">Role: User</button>
+                <a class="btn btn-outline" href="login.html">Login</a>
+                <a class="btn btn-orange" href="signup.html">Sign Up</a>
             </div>
         </div>
     </header>
 
-    <main class="popular-section">
-        <div class="container">
-            <article class="recipe-card detail-article">
-                
-                <div class="section-heading detail-heading-bar">
-                    <div>
-                        <span class="tag tag-appetizer">Appetizer</span>
-                        <h1 class="detail-title-text">Classic Creamy Tomato Soup</h1>
-                        <p class="detail-meta-text">Recipe ID: REC-1024 &bull; Course: Appetizer</p>
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-orange">
-                            <span>♥</span> Remove from Favorites
-                        </button>
-                    </div>
+    <main class="popular-section container">
+
+        <!-- ================= RECIPE 1: PASTA ================= -->
+        <article class="recipe-card detail-article" id="pasta" style="margin-bottom: 50px;">
+            <div class="section-heading detail-heading-bar">
+                <div>
+                    <span class="tag tag-main">Main Course</span>
+                    <h1 class="detail-title-text">Creamy Chicken Pasta</h1>
+                    <p class="detail-meta-text">Recipe ID: REC-101 &bull; Course: Main Course</p>
                 </div>
-
-                <div class="recipe-grid detail-layout-grid">
-                    <aside class="ingredients-panel">
-                        <h2>Ingredients</h2>
-                        <ul class="ingredients-table-list">
-                            <li><span>Fresh Tomatoes</span> <strong>1 kg</strong></li>
-                            <li><span>Olive Oil</span> <strong>2 tbsp</strong></li>
-                            <li><span>Minced Garlic</span> <strong>4 cloves</strong></li>
-                            <li><span>Yellow Onion</span> <strong>1 medium</strong></li>
-                            <li><span>Vegetable Broth</span> <strong>500 ml</strong></li>
-                            <li><span>Heavy Cream</span> <strong>100 ml</strong></li>
-                            <li><span>Fresh Basil</span> <strong>10 leaves</strong></li>
-                            <li><span>Salt & Pepper</span> <strong>To taste</strong></li>
-                        </ul>
-                    </aside>
-
-                    <section class="instructions-panel">
-                        <h2>Preparation Instructions</h2>
-                        
-                        <div class="instruction-step-item">
-                            <h3>Step 1: Roast the Tomatoes</h3>
-                            <p>Preheat oven to 200°C (400°F). Halve tomatoes, toss with 1 tbsp olive oil, salt, and pepper. Roast on a baking sheet for 25 minutes until tender and charred.</p>
-                        </div>
-
-                        <div class="instruction-step-item">
-                            <h3>Step 2: Sauté Aromatics</h3>
-                            <p>In a large pot, heat remaining olive oil over medium heat. Add chopped onions and garlic, cooking until soft and translucent (about 5 minutes).</p>
-                        </div>
-
-                        <div class="instruction-step-item">
-                            <h3>Step 3: Simmer & Blend</h3>
-                            <p>Add roasted tomatoes and vegetable broth to the pot. Simmer for 10 minutes, blend until smooth using an immersion blender, then stir in heavy cream and fresh basil leaves.</p>
-                        </div>
-                    </section>
+                <div>
+                    <button type="button" class="btn btn-orange">
+                        <span aria-hidden="true">♥</span> Add to Favorites
+                    </button>
                 </div>
+            </div>
 
-            </article>
-        </div>
+            <div class="recipe-grid detail-layout-grid">
+                <aside class="ingredients-panel">
+                    <h2>Ingredients</h2>
+                    <ul class="ingredients-table-list">
+                        <li><span>Fettuccine Pasta</span> <strong>250g</strong></li>
+                        <li><span>Chicken Breast (diced)</span> <strong>300g</strong></li>
+                        <li><span>Heavy Cream</span> <strong>1 cup</strong></li>
+                        <li><span>Grated Parmesan</span> <strong>1/2 cup</strong></li>
+                        <li><span>Minced Garlic</span> <strong>3 cloves</strong></li>
+                        <li><span>Olive Oil</span> <strong>2 tbsp</strong></li>
+                    </ul>
+                </aside>
+
+                <section class="instructions-panel">
+                    <h2>Preparation Instructions</h2>
+                    <div class="card-image" style="height: 220px; border-radius: 12px; margin-bottom: 24px;">
+                        <img src="images/chicken-pasta.jpg" alt="Creamy Chicken Pasta" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 1: Boil the Pasta</h3>
+                        <p>Bring a large pot of salted water to a boil. Cook fettuccine pasta until al dente, drain, and set aside.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 2: Cook the Chicken</h3>
+                        <p>Heat olive oil in a skillet over medium-high heat. Sauté diced chicken until golden brown and cooked through.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 3: Make the Cream Sauce</h3>
+                        <p>Add garlic and heavy cream, simmer gently, then stir in Parmesan cheese until smooth.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 4: Combine & Serve</h3>
+                        <p>Toss pasta into the creamy sauce until coated and serve hot.</p>
+                    </div>
+                </section>
+            </div>
+        </article>
+
+        <!-- ================= RECIPE 2: PANCAKES ================= -->
+        <article class="recipe-card detail-article" id="pancakes" style="margin-bottom: 50px;">
+            <div class="section-heading detail-heading-bar">
+                <div>
+                    <span class="tag tag-dessert">Dessert</span>
+                    <h1 class="detail-title-text">Fluffy Pancakes</h1>
+                    <p class="detail-meta-text">Recipe ID: REC-102 &bull; Course: Dessert</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-orange">
+                        <span aria-hidden="true">♥</span> Add to Favorites
+                    </button>
+                </div>
+            </div>
+
+            <div class="recipe-grid detail-layout-grid">
+                <aside class="ingredients-panel">
+                    <h2>Ingredients</h2>
+                    <ul class="ingredients-table-list">
+                        <li><span>All-Purpose Flour</span> <strong>1.5 cups</strong></li>
+                        <li><span>Baking Powder</span> <strong>3 tsp</strong></li>
+                        <li><span>Milk</span> <strong>1.25 cups</strong></li>
+                        <li><span>Egg</span> <strong>1 large</strong></li>
+                        <li><span>Melted Butter</span> <strong>3 tbsp</strong></li>
+                        <li><span>Sugar</span> <strong>2 tbsp</strong></li>
+                    </ul>
+                </aside>
+
+                <section class="instructions-panel">
+                    <h2>Preparation Instructions</h2>
+                    <div class="card-image" style="height: 220px; border-radius: 12px; margin-bottom: 24px;">
+                        <img src="images/pancakes.jpg" alt="Fluffy Pancakes" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 1: Mix Dry Ingredients</h3>
+                        <p>Whisk flour, baking powder, sugar, and salt together in a large bowl.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 2: Combine Wet Ingredients</h3>
+                        <p>In a separate bowl, whisk milk, egg, and melted butter.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 3: Batter Mix</h3>
+                        <p>Pour wet mixture into dry ingredients and stir until just combined.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 4: Cook</h3>
+                        <p>Pour batter onto a hot greased griddle, flip when bubbles form, and cook until golden.</p>
+                    </div>
+                </section>
+            </div>
+        </article>
+
+        <!-- ================= RECIPE 3: SALAD ================= -->
+        <article class="recipe-card detail-article" id="salad" style="margin-bottom: 50px;">
+            <div class="section-heading detail-heading-bar">
+                <div>
+                    <span class="tag tag-appetizer">Appetizer</span>
+                    <h1 class="detail-title-text">Greek Salad</h1>
+                    <p class="detail-meta-text">Recipe ID: REC-103 &bull; Course: Appetizer</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-orange">
+                        <span aria-hidden="true">♥</span> Add to Favorites
+                    </button>
+                </div>
+            </div>
+
+            <div class="recipe-grid detail-layout-grid">
+                <aside class="ingredients-panel">
+                    <h2>Ingredients</h2>
+                    <ul class="ingredients-table-list">
+                        <li><span>Cucumbers</span> <strong>2 chopped</strong></li>
+                        <li><span>Ripe Tomatoes</span> <strong>3 diced</strong></li>
+                        <li><span>Feta Cheese</span> <strong>100g block</strong></li>
+                        <li><span>Kalamata Olives</span> <strong>1/2 cup</strong></li>
+                        <li><span>Red Onion</span> <strong>1 small sliced</strong></li>
+                        <li><span>Olive Oil & Oregano</span> <strong>To taste</strong></li>
+                    </ul>
+                </aside>
+
+                <section class="instructions-panel">
+                    <h2>Preparation Instructions</h2>
+                    <div class="card-image" style="height: 220px; border-radius: 12px; margin-bottom: 24px;">
+                        <img src="images/greek-salad.jpg" alt="Greek Salad" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 1: Prep Vegetables</h3>
+                        <p>Chop cucumbers, tomatoes, and red onion into bite-sized pieces and place in a bowl.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 2: Add Accents</h3>
+                        <p>Add Kalamata olives and top with a block or crumbled pieces of feta cheese.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 3: Dress & Serve</h3>
+                        <p>Drizzle generously with extra virgin olive oil and sprinkle with dried oregano.</p>
+                    </div>
+                </section>
+            </div>
+        </article>
+
+        <!-- ================= RECIPE 4: CAKE ================= -->
+        <article class="recipe-card detail-article" id="cake" style="margin-bottom: 50px;">
+            <div class="section-heading detail-heading-bar">
+                <div>
+                    <span class="tag tag-dessert">Dessert</span>
+                    <h1 class="detail-title-text">Chocolate Cake</h1>
+                    <p class="detail-meta-text">Recipe ID: REC-104 &bull; Course: Dessert</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-orange">
+                        <span aria-hidden="true">♥</span> Add to Favorites
+                    </button>
+                </div>
+            </div>
+
+            <div class="recipe-grid detail-layout-grid">
+                <aside class="ingredients-panel">
+                    <h2>Ingredients</h2>
+                    <ul class="ingredients-table-list">
+                        <li><span>All-Purpose Flour</span> <strong>2 cups</strong></li>
+                        <li><span>Cocoa Powder</span> <strong>3/4 cup</strong></li>
+                        <li><span>Granulated Sugar</span> <strong>2 cups</strong></li>
+                        <li><span>Eggs</span> <strong>2 large</strong></li>
+                        <li><span>Warm Milk</span> <strong>1 cup</strong></li>
+                        <li><span>Vegetable Oil</span> <strong>1/2 cup</strong></li>
+                    </ul>
+                </aside>
+
+                <section class="instructions-panel">
+                    <h2>Preparation Instructions</h2>
+                    <div class="card-image" style="height: 220px; border-radius: 12px; margin-bottom: 24px;">
+                        <img src="images/chocolate-cake.jpg" alt="Chocolate Cake" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 1: Preheat Oven</h3>
+                        <p>Preheat oven to 180°C (350°F) and grease and flour two round baking pans.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 2: Mix Dry Ingredients</h3>
+                        <p>Whisk flour, cocoa powder, sugar, baking soda, and salt in a large bowl.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 3: Add Wet Ingredients</h3>
+                        <p>Add eggs, milk, and oil; beat on medium speed until smooth.</p>
+                    </div>
+                    <div class="instruction-step-item">
+                        <h3>Step 4: Bake</h3>
+                        <p>Pour into pans and bake for 30 to 35 minutes until a toothpick inserted comes out clean.</p>
+                    </div>
+                </section>
+            </div>
+        </article>
+
     </main>
 
     <footer class="site-footer">
@@ -101,39 +258,28 @@
             <div>
                 <h3>Quick Links</h3>
                 <a href="index.html">Home</a>
-                <a href="browse.html">Explore Recipes</a>
+                <a href="recipes.html">Explore Recipes</a>
                 <a href="favorites.html">Favorites</a>
             </div>
             <div>
                 <h3>About Us</h3>
-                <a href="#">Our Story</a>
-                <a href="#">Contact Us</a>
-                <a href="#">FAQ</a>
+                <a href="#about">Our Story</a>
+                <a href="#contact">Contact Us</a>
+                <a href="#faq">FAQ</a>
             </div>
             <div>
                 <h3>Follow Us</h3>
                 <div class="social-links">
-                    <a href="#">f</a>
-                    <a href="#">o</a>
-                    <a href="#">▶</a>
+                    <a href="#facebook" aria-label="Facebook">f</a>
+                    <a href="#instagram" aria-label="Instagram">◎</a>
+                    <a href="#youtube" aria-label="YouTube">▶</a>
                 </div>
             </div>
         </div>
         <div class="container copyright">
-            <p>&copy; 2026 Recipe Finder. All rights reserved.</p>
+            <p>&copy; 2026 RecipeFinder. All rights reserved.</p>
         </div>
     </footer>
-
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                const isOpen = navLinks.classList.toggle('show');
-                menuToggle.setAttribute('aria-expanded', String(isOpen));
-            });
-        }
-    </script>
 
 </body>
 </html>
