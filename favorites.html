@@ -1,142 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Favorites - Recipe Finder</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View and manage your saved favorite recipes on RecipeFinder.">
+  <title>Favorites | RecipeFinder</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a class="brand" href="index.html" aria-label="RecipeFinder home">
+        <span class="brand-icon" aria-hidden="true">🍴</span>
+        <span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="recipes.html">Explore Recipes</a>
+        <a class="active" href="favorites.html">Favorites</a>
+      </nav>
+      <div class="auth-links">
+        <a class="btn btn-outline" href="login.html">Login</a>
+        <a class="btn btn-orange" href="signup.html">Sign Up</a>
+      </div>
+    </div>
+  </header>
 
-    <header class="site-header">
-        <div class="container navbar">
-            <a href="index.html" class="brand">
-                <div class="brand-icon" aria-hidden="true">🍴</div>
-                <div class="brand-copy">
-                    <strong>Recipe<span>Finder</span></strong>
-                    <small>Good Food &bull; Happy Mood</small>
-                </div>
-            </a>
+  <main>
+    <section class="popular-section container">
+      <div class="section-heading">
+        <h2><span class="leaf" aria-hidden="true">❧</span> My Saved Favorites</h2>
+        <span class="text-link">3 Recipes Saved</span>
+      </div>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-
-            <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-                <a href="index.html">Home</a>
-                <a href="browse.html">Browse Recipes</a>
-                <a href="favorites.html" class="active">Favorites</a>
-            </nav>
-
-            <div class="auth-links">
-                <button type="button" class="btn btn-outline" style="cursor: default;">Role: User</button>
+      <div class="recipe-grid">
+        <!-- ================= saved item 1: pasta ================= -->
+        <article class="recipe-card">
+          <a href="recipe-details.html#pasta" class="card-image">
+            <img src="images/chicken-pasta.jpg" alt="Creamy chicken pasta">
+          </a>
+          <div class="card-content">
+            <span class="tag tag-main">Main Course</span>
+            <h3>Creamy Chicken Pasta</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-101</p>
+            <div style="display: flex; gap: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details.html#pasta">View Recipe <span>→</span></a>
+              <button type="button" class="btn btn-outline" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
             </div>
-        </div>
-    </header>
+          </div>
+        </article>
 
-    <main class="popular-section">
-        <div class="container">
-            <div class="section-heading" style="margin-bottom: 28px;">
-                <h2><span class="leaf" aria-hidden="true">🌿</span> My Saved Favorites</h2>
-                <span class="text-link">3 Recipes Saved</span>
+        <!-- ================= saved item 2: pancakes ================= -->
+        <article class="recipe-card">
+          <a href="recipe-details.html#pancakes" class="card-image">
+            <img src="images/pancakes.jpg" alt="Fluffy pancakes topped with berries">
+          </a>
+          <div class="card-content">
+            <span class="tag tag-dessert">Dessert</span>
+            <h3>Fluffy Pancakes</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-102</p>
+            <div style="display: flex; gap: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details.html#pancakes">View Recipe <span>→</span></a>
+              <button type="button" class="btn btn-outline" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
             </div>
+          </div>
+        </article>
 
-            <div class="recipe-grid">
-                <!-- Recipe Card 1 -->
-                <article class="recipe-card">
-                    <a href="recipe-details.html" class="card-image">
-                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80" alt="Tomato Soup">
-                    </a>
-                    <div class="card-content">
-                        <span class="tag tag-appetizer">Appetizer</span>
-                        <h3>Classic Creamy Tomato Soup</h3>
-                        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-1024</p>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="recipe-details.html" class="card-button" style="flex: 1;">View Recipe</a>
-                            <button type="button" class="btn" style="height: 35px; border: 1px solid #e0b3b0; background: #fdf2f2; border-radius: 12px; color: #d9383a; font-size: 12px; font-weight: 600; padding: 0 12px;">Remove</button>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Recipe Card 2 -->
-                <article class="recipe-card">
-                    <a href="recipe-details.html" class="card-image">
-                        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=500&q=80" alt="Garlic Salmon">
-                    </a>
-                    <div class="card-content">
-                        <span class="tag tag-main">Main Course</span>
-                        <h3>Garlic Butter Salmon</h3>
-                        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-1088</p>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="recipe-details.html" class="card-button" style="flex: 1;">View Recipe</a>
-                            <button type="button" class="btn" style="height: 35px; border: 1px solid #e0b3b0; background: #fdf2f2; border-radius: 12px; color: #d9383a; font-size: 12px; font-weight: 600; padding: 0 12px;">Remove</button>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Recipe Card 3 -->
-                <article class="recipe-card">
-                    <a href="recipe-details.html" class="card-image">
-                        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" alt="Chocolate Lava Cake">
-                    </a>
-                    <div class="card-content">
-                        <span class="tag tag-dessert">Dessert</span>
-                        <h3>Dark Chocolate Lava Cake</h3>
-                        <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-2015</p>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="recipe-details.html" class="card-button" style="flex: 1;">View Recipe</a>
-                            <button type="button" class="btn" style="height: 35px; border: 1px solid #e0b3b0; background: #fdf2f2; border-radius: 12px; color: #d9383a; font-size: 12px; font-weight: 600; padding: 0 12px;">Remove</button>
-                        </div>
-                    </div>
-                </article>
+        <!-- ================= saved item 3: greek salad ================= -->
+        <article class="recipe-card">
+          <a href="recipe-details.html#salad" class="card-image">
+            <img src="images/greek-salad.jpg" alt="Fresh Greek salad">
+          </a>
+          <div class="card-content">
+            <span class="tag tag-appetizer">Appetizer</span>
+            <h3>Greek Salad</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-103</p>
+            <div style="display: flex; gap: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details.html#salad">View Recipe <span>→</span></a>
+              <button type="button" class="btn btn-outline" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
             </div>
-        </div>
-    </main>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
 
-    <footer class="site-footer">
-        <div class="container footer-grid">
-            <a class="brand footer-brand" href="index.html">
-                <span class="brand-icon" aria-hidden="true">🍴</span>
-                <span class="brand-copy">
-                    <strong>Recipe<span>Finder</span></strong>
-                    <small>Good Food &bull; Happy Mood</small>
-                </span>
-            </a>
-            <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
-            <div>
-                <h3>Quick Links</h3>
-                <a href="index.html">Home</a>
-                <a href="browse.html">Explore Recipes</a>
-                <a href="favorites.html">Favorites</a>
-            </div>
-            <div>
-                <h3>About Us</h3>
-                <a href="#">Our Story</a>
-                <a href="#">Contact Us</a>
-                <a href="#">FAQ</a>
-            </div>
-            <div>
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#">f</a>
-                    <a href="#">o</a>
-                    <a href="#">▶</a>
-                </div>
-            </div>
-        </div>
-        <div class="container copyright">
-            <p>&copy; 2026 Recipe Finder. All rights reserved.</p>
-        </div>
-    </footer>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-icon" aria-hidden="true">🍴</span><span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
+      </a>
+      <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
+      <div><h3>Quick Links</h3><a href="index.html">Home</a><a href="recipes.html">Explore Recipes</a><a href="favorites.html">Favorites</a></div>
+      <div><h3>About Us</h3><a href="#about">Our Story</a><a href="#contact">Contact Us</a><a href="#faq">FAQ</a></div>
+      <div><h3>Follow Us</h3><div class="social-links"><a href="#facebook" aria-label="Facebook">f</a><a href="#instagram" aria-label="Instagram">◎</a><a href="#youtube" aria-label="YouTube">▶</a></div></div>
+    </div>
+    <div class="container copyright">© 2026 RecipeFinder. All rights reserved.</div>
+  </footer>
 
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                const isOpen = navLinks.classList.toggle('show');
-                menuToggle.setAttribute('aria-expanded', String(isOpen));
-            });
-        }
-    </script>
-
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('show');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+  </script>
 </body>
 </html>
