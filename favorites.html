@@ -31,12 +31,11 @@
     <section class="popular-section container">
       <div class="section-heading">
         <h2><span class="leaf" aria-hidden="true">❧</span> My Saved Favorites</h2>
-        <span class="text-link">3 Recipes Saved</span>
+        <span class="text-link" id="fav-count-text">3 Recipes Saved</span>
       </div>
 
-      <div class="recipe-grid">
-        <!-- ================= saved item 1: pasta ================= -->
-        <article class="recipe-card">
+      <div class="recipe-grid" id="favorites-grid">
+        <article class="recipe-card" id="card-REC-101">
           <a href="recipe-details.html#pasta" class="card-image">
             <img src="images/chicken-pasta.jpg" alt="Creamy chicken pasta">
           </a>
@@ -46,13 +45,12 @@
             <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-101</p>
             <div style="display: flex; gap: 8px;">
               <a class="card-button" style="flex: 1;" href="recipe-details.html#pasta">View Recipe <span>→</span></a>
-              <button type="button" class="btn btn-outline" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
+              <button type="button" class="btn btn-outline" onclick="removeFavorite('REC-101')" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
             </div>
           </div>
         </article>
 
-        <!-- ================= saved item 2: pancakes ================= -->
-        <article class="recipe-card">
+        <article class="recipe-card" id="card-REC-102">
           <a href="recipe-details.html#pancakes" class="card-image">
             <img src="images/pancakes.jpg" alt="Fluffy pancakes topped with berries">
           </a>
@@ -62,13 +60,12 @@
             <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-102</p>
             <div style="display: flex; gap: 8px;">
               <a class="card-button" style="flex: 1;" href="recipe-details.html#pancakes">View Recipe <span>→</span></a>
-              <button type="button" class="btn btn-outline" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
+              <button type="button" class="btn btn-outline" onclick="removeFavorite('REC-102')" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
             </div>
           </div>
         </article>
 
-        <!-- ================= saved item 3: greek salad ================= -->
-        <article class="recipe-card">
+        <article class="recipe-card" id="card-REC-103">
           <a href="recipe-details.html#salad" class="card-image">
             <img src="images/greek-salad.jpg" alt="Fresh Greek salad">
           </a>
@@ -78,7 +75,7 @@
             <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-103</p>
             <div style="display: flex; gap: 8px;">
               <a class="card-button" style="flex: 1;" href="recipe-details.html#salad">View Recipe <span>→</span></a>
-              <button type="button" class="btn btn-outline" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
+              <button type="button" class="btn btn-outline" onclick="removeFavorite('REC-103')" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
             </div>
           </div>
         </article>
@@ -89,14 +86,32 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <a class="brand footer-brand" href="index.html">
-        <span class="brand-icon" aria-hidden="true">🍴</span><span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
+        <span class="brand-icon" aria-hidden="true">🍴</span>
+        <span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
       </a>
       <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
-      <div><h3>Quick Links</h3><a href="index.html">Home</a><a href="recipes.html">Explore Recipes</a><a href="favorites.html">Favorites</a></div>
-      <div><h3>About Us</h3><a href="#about">Our Story</a><a href="#contact">Contact Us</a><a href="#faq">FAQ</a></div>
-      <div><h3>Follow Us</h3><div class="social-links"><a href="#facebook" aria-label="Facebook">f</a><a href="#instagram" aria-label="Instagram">◎</a><a href="#youtube" aria-label="YouTube">▶</a></div></div>
+      <div>
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="recipes.html">Explore Recipes</a>
+        <a href="favorites.html">Favorites</a>
+      </div>
+      <div>
+        <h3>About Us</h3>
+        <a href="#about">Our Story</a>
+        <a href="#contact">Contact Us</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#facebook" aria-label="Facebook">f</a>
+          <a href="#instagram" aria-label="Instagram">◎</a>
+          <a href="#youtube" aria-label="YouTube">▶</a>
+        </div>
+      </div>
     </div>
-    <div class="container copyright">© 2026 RecipeFinder. All rights reserved.</div>
+    <div class="container copyright">&copy; 2026 RecipeFinder. All rights reserved.</div>
   </footer>
 
   <script>
@@ -108,6 +123,86 @@
         menuToggle.setAttribute('aria-expanded', String(isOpen));
       });
     }
+
+    const FAV_KEY = "recipeFinderUserFavorites";
+
+    function initFavoritesStorage() {
+      let favorites = JSON.parse(localStorage.getItem(FAV_KEY) || "null");
+      if (!favorites) {
+        favorites = {
+          "REC-101": { id: "REC-101", name: "Creamy Chicken Pasta", course: "Main Course", image: "images/chicken-pasta.jpg", tagClass: "tag tag-main" },
+          "REC-102": { id: "REC-102", name: "Fluffy Pancakes", course: "Dessert", image: "images/pancakes.jpg", tagClass: "tag tag-dessert" },
+          "REC-103": { id: "REC-103", name: "Greek Salad", course: "Appetizer", image: "images/greek-salad.jpg", tagClass: "tag tag-appetizer" }
+        };
+        localStorage.setItem(FAV_KEY, JSON.stringify(favorites));
+      }
+      return favorites;
+    }
+
+    function removeFavorite(id) {
+      let favorites = JSON.parse(localStorage.getItem(FAV_KEY) || "{}");
+      if (favorites[id]) {
+        delete favorites[id];
+        localStorage.setItem(FAV_KEY, JSON.stringify(favorites));
+      }
+
+      const card = document.getElementById('card-' + id);
+      if (card) {
+        card.remove();
+      }
+
+      updateFavoritesCount();
+    }
+
+    function renderFavoritesPage() {
+      let favorites = initFavoritesStorage();
+      const grid = document.getElementById('favorites-grid');
+      grid.innerHTML = "";
+
+      const keys = Object.keys(favorites);
+      if (keys.length === 0) {
+        grid.innerHTML = "<p style='color: var(--muted); grid-column: span 4;'>No favorite recipes saved yet.</p>";
+      } else {
+        keys.forEach(id => {
+          let rec = favorites[id];
+          
+          let detailHash = "pasta";
+          const lowerName = (rec.name || "").toLowerCase();
+          if (rec.id === 'REC-102' || lowerName.includes('pancake')) detailHash = "pancakes";
+          else if (rec.id === 'REC-103' || lowerName.includes('salad')) detailHash = "salad";
+          else if (rec.id === 'REC-104' || lowerName.includes('cake')) detailHash = "cake";
+          else if (rec.id === 'REC-101' || lowerName.includes('pasta')) detailHash = "pasta";
+
+          const card = document.createElement('article');
+          card.className = "recipe-card";
+          card.id = "card-" + rec.id;
+          card.innerHTML = `
+            <a href="recipe-details.html#${detailHash}" class="card-image">
+              <img src="${rec.image || 'images/chicken-pasta.jpg'}" alt="${rec.name}">
+            </a>
+            <div class="card-content">
+              <span class="${rec.tagClass || 'tag tag-main'}">${rec.course || 'Main Course'}</span>
+              <h3>${rec.name}</h3>
+              <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: ${rec.id}</p>
+              <div style="display: flex; gap: 8px;">
+                <a class="card-button" style="flex: 1;" href="recipe-details.html#${detailHash}">View Recipe <span>→</span></a>
+                <button type="button" class="btn btn-outline" onclick="removeFavorite('${rec.id}')" style="padding: 0 12px; height: 35px; border-color: #e0b3b0; color: #d9383a; font-size: 12px;" aria-label="Remove">Remove</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+      updateFavoritesCount();
+    }
+
+    function updateFavoritesCount() {
+      let favorites = JSON.parse(localStorage.getItem(FAV_KEY) || "{}");
+      const count = Object.keys(favorites).length;
+      document.getElementById('fav-count-text').textContent = count + " Recipes Saved";
+    }
+
+    renderFavoritesPage();
   </script>
 </body>
 </html>
