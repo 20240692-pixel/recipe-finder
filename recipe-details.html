@@ -35,7 +35,6 @@
 
     <main class="popular-section container">
 
-        <!-- ================= RECIPE 1: PASTA ================= -->
         <article class="recipe-card detail-article" id="pasta" style="margin-bottom: 50px;">
             <div class="section-heading detail-heading-bar">
                 <div>
@@ -44,7 +43,7 @@
                     <p class="detail-meta-text">Recipe ID: REC-101 &bull; Course: Main Course</p>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-orange">
+                    <button type="button" class="btn btn-orange" onclick="addToFavorites('REC-101', 'Creamy Chicken Pasta', 'Main Course', 'images/chicken-pasta.jpg', 'tag tag-main')">
                         <span aria-hidden="true">♥</span> Add to Favorites
                     </button>
                 </div>
@@ -88,7 +87,6 @@
             </div>
         </article>
 
-        <!-- ================= RECIPE 2: PANCAKES ================= -->
         <article class="recipe-card detail-article" id="pancakes" style="margin-bottom: 50px;">
             <div class="section-heading detail-heading-bar">
                 <div>
@@ -97,7 +95,7 @@
                     <p class="detail-meta-text">Recipe ID: REC-102 &bull; Course: Dessert</p>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-orange">
+                    <button type="button" class="btn btn-orange" onclick="addToFavorites('REC-102', 'Fluffy Pancakes', 'Dessert', 'images/pancakes.jpg', 'tag tag-dessert')">
                         <span aria-hidden="true">♥</span> Add to Favorites
                     </button>
                 </div>
@@ -141,7 +139,6 @@
             </div>
         </article>
 
-        <!-- ================= RECIPE 3: SALAD ================= -->
         <article class="recipe-card detail-article" id="salad" style="margin-bottom: 50px;">
             <div class="section-heading detail-heading-bar">
                 <div>
@@ -150,7 +147,7 @@
                     <p class="detail-meta-text">Recipe ID: REC-103 &bull; Course: Appetizer</p>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-orange">
+                    <button type="button" class="btn btn-orange" onclick="addToFavorites('REC-103', 'Greek Salad', 'Appetizer', 'images/greek-salad.jpg', 'tag tag-appetizer')">
                         <span aria-hidden="true">♥</span> Add to Favorites
                     </button>
                 </div>
@@ -190,7 +187,6 @@
             </div>
         </article>
 
-        <!-- ================= RECIPE 4: CAKE ================= -->
         <article class="recipe-card detail-article" id="cake" style="margin-bottom: 50px;">
             <div class="section-heading detail-heading-bar">
                 <div>
@@ -199,7 +195,7 @@
                     <p class="detail-meta-text">Recipe ID: REC-104 &bull; Course: Dessert</p>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-orange">
+                    <button type="button" class="btn btn-orange" onclick="addToFavorites('REC-104', 'Chocolate Cake', 'Dessert', 'images/chocolate-cake.jpg', 'tag tag-dessert')">
                         <span aria-hidden="true">♥</span> Add to Favorites
                     </button>
                 </div>
@@ -281,5 +277,38 @@
         </div>
     </footer>
 
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                const isOpen = navLinks.classList.toggle('show');
+                menuToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+
+        function addToFavorites(id, name, course, image, tagClass) {
+            const FAV_KEY = "recipeFinderUserFavorites";
+            let favorites = JSON.parse(localStorage.getItem(FAV_KEY) || "{}");
+
+            if (!favorites[id]) {
+                favorites[id] = { id, name, course, image, tagClass };
+                localStorage.setItem(FAV_KEY, JSON.stringify(favorites));
+                alert(name + " has been added to your Favorites!");
+            } else {
+                alert(name + " is already in your Favorites.");
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    </script>
 </body>
 </html>
+
