@@ -253,7 +253,7 @@
     <div class="container copyright">© 2026 RecipeFinder. All rights reserved.</div>
   </footer>
 
-  <script>
+ <script>
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     if (menuToggle) {
@@ -264,6 +264,9 @@
     }
 
     const searchForm = document.getElementById('recipeSearchForm');
+    const searchNameInput = document.getElementById('searchName');
+    const searchIngInput = document.getElementById('searchIngredient');
+    const searchCourseSelect = document.getElementById('searchCourse');
     const resetBtn = document.getElementById('resetFiltersBtn');
     const recipeCards = document.querySelectorAll('#recipeGrid .recipe-card');
     const recipeGrid = document.getElementById('recipeGrid');
@@ -272,38 +275,67 @@
     const emptyToggle = document.getElementById('emptyStateToggle');
 
     function filterRecipes() {
-      const nameVal = document.getElementById('searchName').value.trim().toLowerCase();
-      const ingVal = document.getElementById('searchIngredient').value.trim().toLowerCase();
-      const courseVal = document.getElementById('searchCourse').value;
+      const nameVal = searchNameInput.value.trim().toLowerCase();
+      const ingVal = searchIngInput.value.trim().toLowerCase();
+      const courseVal = searchCourseSelect.value.trim().toLowerCase();
       let count = 0;
 
       recipeCards.forEach(card => {
-        const matchName = !nameVal || card.dataset.name.toLowerCase().includes(nameVal);
-        const matchIng = !ingVal || card.dataset.ingredients.toLowerCase().includes(ingVal);
-        const matchCourse = !courseVal || card.dataset.course === courseVal;
+        const cardTitle = (card.querySelector('h3')?.textContent || '').toLowerCase();
+        const cardId = (card.querySelector('.card-id')?.textContent || '').toLowerCase();
+        const cardDesc = (card.querySelector('.card-desc')?.textContent || '').toLowerCase();
+        const cardIngText = (card.querySelector('.card-ingredients')?.textContent || '').toLowerCase();
+        const dataName = (card.dataset.name || '').toLowerCase();
+        const dataIng = (card.dataset.ingredients || '').toLowerCase();
+        const dataCourse = (card.dataset.course || '').toLowerCase();
+
+        // Match Recipe Name (checks title, data-name, ID, and description)
+        const matchName = !nameVal || 
+          cardTitle.includes(nameVal) || 
+          dataName.includes(nameVal) || 
+          cardId.includes(nameVal) ||
+          cardDesc.includes(nameVal);
+
+        // Match Ingredient (checks ingredient list text, data-ingredients, and description)
+        const matchIng = !ingVal || 
+          cardIngText.includes(ingVal) || 
+          dataIng.includes(ingVal) || 
+          cardDesc.includes(ingVal) ||
+          cardTitle.includes(ingVal);
+
+        // Match Course dropdown
+        const matchCourse = !courseVal || dataCourse === courseVal;
 
         if (matchName && matchIng && matchCourse) {
           card.hidden = false;
+          card.style.display = '';
           count++;
         } else {
           card.hidden = true;
+          card.style.display = 'none';
         }
       });
 
       recipeGrid.hidden = (count === 0);
+      recipeGrid.style.display = (count === 0) ? 'none' : '';
       emptyBox.hidden = (count > 0);
-      emptyToggle.checked = (count === 0);
+      emptyBox.style.display = (count > 0) ? 'none' : 'block';
+      if (emptyToggle) emptyToggle.checked = (count === 0);
       resultsCounter.textContent = `Showing ${count} Result${count === 1 ? '' : 's'}`;
     }
 
+    // Filter both when clicking "Filter" AND live while typing/selecting
     searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
       filterRecipes();
     });
+    searchNameInput.addEventListener('input', filterRecipes);
+    searchIngInput.addEventListener('input', filterRecipes);
+    searchCourseSelect.addEventListener('change', filterRecipes);
 
     function resetRecipeSearch() {
       searchForm.reset();
-      emptyToggle.checked = false;
+      if (emptyToggle) emptyToggle.checked = false;
       filterRecipes();
     }
 
@@ -314,7 +346,9 @@
     function toggleEmptyPreview(showEmpty) {
       if (showEmpty) {
         recipeGrid.hidden = true;
+        recipeGrid.style.display = 'none';
         emptyBox.hidden = false;
+        emptyBox.style.display = 'block';
         resultsCounter.textContent = 'Showing 0 Results';
       } else {
         filterRecipes();
@@ -329,6 +363,14 @@
       const badge = document.getElementById('navFavCount');
       if (badge) badge.textContent = savedCount;
     }
+
+    // Support URL search queries coming from index.html (?q=...&course=...)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('q')) searchNameInput.value = params.get('q');
+    if (params.get('recipe_name')) searchNameInput.value = params.get('recipe_name');
+    if (params.get('ingredient')) searchIngInput.value = params.get('ingredient');
+    if (params.get('course')) searchCourseSelect.value = params.get('course');
+    filterRecipes();
   </script>
 </body>
 </html>
