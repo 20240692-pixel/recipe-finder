@@ -3,10 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Admin page: add a new recipe or edit an existing recipe in the RecipeFinder collection.">
-  <title>Add / Edit Recipe | RecipeFinder Admin</title>
+  <meta name="description" content="Browse, search, and manage recipes on RecipeFinder.">
+  <title>Explore & Manage Recipes | RecipeFinder</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/recipe-form.css">
+  <style>
+    /* Admin Control Panel Styles */
+    .admin-bar {
+      background: #087f5b;
+      padding: 15px 25px;
+      margin-top: 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .admin-bar h3 { margin: 0; font-size: 18px; font-family: 'Playfair Display', Georgia, serif; }
+    .admin-actions-group { display: flex; gap: 10px; }
+    .admin-action-btn { background: #f0ad4e; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+    .admin-action-btn:hover { background: #dc932c; }
+    .admin-delete-btn { background: #e74c3c; }
+    .admin-delete-btn:hover { background: #c0392b; }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -16,132 +34,121 @@
         <span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
       </a>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-      <nav class="nav-links" id="navLinks" aria-label="Administrator navigation">
-        <a href="admin.html">Dashboard</a>
-        <a class="active" href="add-edit-recipe.html" id="navAdd">Add Recipe</a>
-        <a href="recipes.html">Explore Recipes</a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a class="active" href="recipes.html">Explore Recipes</a>
+        <a href="favorites.html">Favorites</a>
       </nav>
       <div class="auth-links">
-        <span class="role-badge" title="You are signed in as an administrator">Admin</span>
-        <a class="btn btn-outline" href="index.html">Log Out</a>
+        <a class="btn btn-outline" href="login.html">Login</a>
+        <a class="btn btn-orange" href="signup.html">Sign Up</a>
       </div>
     </div>
   </header>
 
-  <main class="form-page">
-    <div class="container">
+  <main>
+    <!-- Search & Filter Bar Section[cite: 7] -->
+    <section class="search-section container" aria-label="Filter recipes" style="margin-top: 30px;">
+      <form class="search-bar" action="recipes.html" method="get">
+        <label class="search-input"><span aria-hidden="true">⌕</span><input type="search" name="q" placeholder="Search by name or ingredient..." aria-label="Search recipes"></label>
+        <label class="course-select"><span class="sr-only">Recipe course</span>
+          <select name="course">
+            <option value="">All Courses</option>
+            <option value="Appetizer">Appetizer</option>
+            <option value="Main Course">Main Course</option>
+            <option value="Dessert">Dessert</option>
+          </select>
+        </label>
+        <button class="btn btn-green search-button" type="submit">Filter</button>
+      </form>
+    </section>
 
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="admin.html">Dashboard</a> <span aria-hidden="true">›</span> <span id="crumb">Add Recipe</span>
-      </nav>
-
-      <div class="form-card">
-        <div class="form-heading">
-          <p class="eyebrow">ADMIN <span>•</span> RECIPE MANAGEMENT</p>
-          <h1 id="pageTitle">Add a New Recipe</h1>
-          <p class="form-intro" id="pageIntro">Fill in the details below. Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
-
-          <!-- Switch between the two states of this page (demo for Phase 1) -->
-          <div class="mode-switch" role="group" aria-label="Form view">
-            <a href="add-edit-recipe.html?mode=add" id="modeAdd" class="mode-link">Add view</a>
-            <a href="add-edit-recipe.html?mode=edit" id="modeEdit" class="mode-link">Edit view (sample recipe)</a>
-          </div>
-        </div>
-
-        <div class="alert alert-success" id="saveAlert" role="status" hidden></div>
-        <div class="alert alert-danger" id="deleteAlert" role="status" hidden>
-          🗑 Recipe deleted. It has been removed from the recipe list.
-        </div>
-
-        <form id="recipeForm" action="admin.html" method="post" novalidate>
-
-          <div class="form-group">
-            <label for="recipeId">Recipe ID</label>
-            <input type="text" id="recipeId" name="recipe_id" placeholder="Generated automatically when saved" readonly aria-describedby="idHint">
-            <p class="hint" id="idHint">The system creates this ID. You can't change it.</p>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="recipeName">Recipe name <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="recipeName" name="recipe_name" placeholder="e.g. Creamy Chicken Pasta" maxlength="80" required>
-            </div>
-
-            <div class="form-group">
-              <label for="course">Course <span class="req" aria-hidden="true">*</span></label>
-              <select id="course" name="course" required>
-                <option value="" selected disabled>Select a course</option>
-                <option value="Appetizer">Appetizer</option>
-                <option value="Main Course">Main Course</option>
-                <option value="Dessert">Dessert</option>
-              </select>
-            </div>
-          </div>
-
-          <fieldset class="ingredients-fieldset">
-            <legend>Ingredients <span class="req" aria-hidden="true">*</span></legend>
-            <p class="hint">Add at least one ingredient with its quantity.</p>
-
-            <div class="ingredient-head" aria-hidden="true">
-              <span>Ingredient name</span>
-              <span>Quantity</span>
-              <span></span>
-            </div>
-
-            <div id="ingredientList">
-              <div class="ingredient-row">
-                <div class="form-group">
-                  <label for="ingName1" class="sr-only">Ingredient 1 name</label>
-                  <input type="text" id="ingName1" name="ingredient_name[]" placeholder="e.g. Penne pasta">
-                </div>
-                <div class="form-group">
-                  <label for="ingQty1" class="sr-only">Ingredient 1 quantity</label>
-                  <input type="text" id="ingQty1" name="ingredient_qty[]" placeholder="e.g. 250 g">
-                </div>
-                <button type="button" class="btn-remove" aria-label="Remove ingredient 1">✕</button>
-              </div>
-              <div class="ingredient-row">
-                <div class="form-group">
-                  <label for="ingName2" class="sr-only">Ingredient 2 name</label>
-                  <input type="text" id="ingName2" name="ingredient_name[]" placeholder="e.g. Chicken breast">
-                </div>
-                <div class="form-group">
-                  <label for="ingQty2" class="sr-only">Ingredient 2 quantity</label>
-                  <input type="text" id="ingQty2" name="ingredient_qty[]" placeholder="e.g. 2 pieces">
-                </div>
-                <button type="button" class="btn-remove" aria-label="Remove ingredient 2">✕</button>
-              </div>
-              <div class="ingredient-row">
-                <div class="form-group">
-                  <label for="ingName3" class="sr-only">Ingredient 3 name</label>
-                  <input type="text" id="ingName3" name="ingredient_name[]" placeholder="e.g. Heavy cream">
-                </div>
-                <div class="form-group">
-                  <label for="ingQty3" class="sr-only">Ingredient 3 quantity</label>
-                  <input type="text" id="ingQty3" name="ingredient_qty[]" placeholder="e.g. 1 cup">
-                </div>
-                <button type="button" class="btn-remove" aria-label="Remove ingredient 3">✕</button>
-              </div>
-            </div>
-
-            <button type="button" class="btn btn-outline btn-add" id="addIngredient">＋ Add another ingredient</button>
-          </fieldset>
-
-          <div class="form-group">
-            <label for="instructions">Description / instructions <span class="req" aria-hidden="true">*</span></label>
-            <textarea id="instructions" name="instructions" rows="8" placeholder="Describe the recipe and write the steps, one step per line." required></textarea>
-            <p class="hint">Tip: write each step on a new line so it is easy to read on the details page.</p>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn btn-danger" id="deleteRecipe" hidden>Delete Recipe</button>
-            <span class="spacer"></span>
-            <a class="btn btn-outline" href="admin.html">Cancel</a>
-            <button type="submit" class="btn btn-orange" id="submitBtn">Save Recipe</button>
-          </div>
-        </form>
+    <!-- Admin Controls Bar (Add Recipe) -->
+    <section class="container" style="margin-top: 15px; margin-bottom: -10px;">
+      <div class="admin-bar">
+        <h3>Admin Management Mode</h3>
+        <button type="button" class="admin-action-btn" style="background: #ffffff; color: #087f5b;" onclick="openAddRecipePrompt()">+ Add New Recipe</button>
       </div>
-    </div>
+    </section>
+
+    <!-- Complete Recipe Catalog Grid[cite: 7] -->
+    <section class="popular-section container">
+      <div class="section-heading">
+        <h2><span class="leaf" aria-hidden="true">❧</span> All Recipes Catalog</h2>
+        <span class="text-link" id="resultCountLabel">Showing 4 Results</span>
+      </div>
+
+      <div class="recipe-grid" id="recipesCatalogGrid">
+        <!-- Recipe 1: Pasta -->
+        <article class="recipe-card" id="card-REC-101">
+          <a href="recipe-details_2.html#pasta" class="card-image"><img src="images/chicken-pasta.jpg" alt="Creamy chicken pasta"></a>
+          <div class="card-content">
+            <span class="tag tag-main">Main Course</span>
+            <h3>Creamy Chicken Pasta</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-101</p>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details_2.html#pasta">View Recipe <span>→</span></a>
+            </div>
+            <!-- Admin Edit/Delete Controls -->
+            <div class="admin-actions-group">
+              <button type="button" class="admin-action-btn" onclick="editRecipe('REC-101', 'Creamy Chicken Pasta', 'Main Course')">Edit</button>
+              <button type="button" class="admin-action-btn admin-delete-btn" onclick="deleteRecipe('card-REC-101')">Delete</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Recipe 2: Pancakes -->
+        <article class="recipe-card" id="card-REC-102">
+          <a href="recipe-details_2.html#pancakes" class="card-image"><img src="images/pancakes.jpg" alt="Fluffy pancakes"></a>
+          <div class="card-content">
+            <span class="tag tag-dessert">Dessert</span>
+            <h3>Fluffy Pancakes</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-102</p>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details_2.html#pancakes">View Recipe <span>→</span></a>
+            </div>
+            <div class="admin-actions-group">
+              <button type="button" class="admin-action-btn" onclick="editRecipe('REC-102', 'Fluffy Pancakes', 'Dessert')">Edit</button>
+              <button type="button" class="admin-action-btn admin-delete-btn" onclick="deleteRecipe('card-REC-102')">Delete</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Recipe 3: Greek Salad -->
+        <article class="recipe-card" id="card-REC-103">
+          <a href="recipe-details_2.html#salad" class="card-image"><img src="images/greek-salad.jpg" alt="Fresh Greek salad"></a>
+          <div class="card-content">
+            <span class="tag tag-appetizer">Appetizer</span>
+            <h3>Greek Salad</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-103</p>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details_2.html#salad">View Recipe <span>→</span></a>
+            </div>
+            <div class="admin-actions-group">
+              <button type="button" class="admin-action-btn" onclick="editRecipe('REC-103', 'Greek Salad', 'Appetizer')">Edit</button>
+              <button type="button" class="admin-action-btn admin-delete-btn" onclick="deleteRecipe('card-REC-103')">Delete</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Recipe 4: Chocolate Cake -->
+        <article class="recipe-card" id="card-REC-104">
+          <a href="recipe-details_2.html#cake" class="card-image"><img src="images/chocolate-cake.jpg" alt="Chocolate cake slice"></a>
+          <div class="card-content">
+            <span class="tag tag-dessert">Dessert</span>
+            <h3>Chocolate Cake</h3>
+            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-104</p>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+              <a class="card-button" style="flex: 1;" href="recipe-details_2.html#cake">View Recipe <span>→</span></a>
+            </div>
+            <div class="admin-actions-group">
+              <button type="button" class="admin-action-btn" onclick="editRecipe('REC-104', 'Chocolate Cake', 'Dessert')">Edit</button>
+              <button type="button" class="admin-action-btn admin-delete-btn" onclick="deleteRecipe('card-REC-104')">Delete</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -158,191 +165,93 @@
   </footer>
 
   <script>
-    /* ---------- Mobile menu (same as the other pages) ---------- */
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('show');
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    /* ---------- Elements ---------- */
-    const form = document.getElementById('recipeForm');
-    const list = document.getElementById('ingredientList');
-    const saveAlert = document.getElementById('saveAlert');
-    const deleteAlert = document.getElementById('deleteAlert');
-    const deleteBtn = document.getElementById('deleteRecipe');
-
-    /* ---------- Ingredient rows ---------- */
-    function rowCount() { return list.querySelectorAll('.ingredient-row').length; }
-
-    function renumber() {
-      list.querySelectorAll('.ingredient-row').forEach((row, i) => {
-        const n = i + 1;
-        const inputs = row.querySelectorAll('input');
-        const labels = row.querySelectorAll('label');
-        inputs[0].id = 'ingName' + n;
-        inputs[1].id = 'ingQty' + n;
-        labels[0].setAttribute('for', 'ingName' + n);
-        labels[0].textContent = 'Ingredient ' + n + ' name';
-        labels[1].setAttribute('for', 'ingQty' + n);
-        labels[1].textContent = 'Ingredient ' + n + ' quantity';
-        row.querySelector('.btn-remove').setAttribute('aria-label', 'Remove ingredient ' + n);
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('show');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
       });
     }
 
-    function addRow(name, qty) {
-      const n = rowCount() + 1;
-      const row = document.createElement('div');
-      row.className = 'ingredient-row';
-      row.innerHTML =
-        '<div class="form-group"><label for="ingName' + n + '" class="sr-only">Ingredient ' + n + ' name</label>' +
-        '<input type="text" id="ingName' + n + '" name="ingredient_name[]" placeholder="Ingredient name"></div>' +
-        '<div class="form-group"><label for="ingQty' + n + '" class="sr-only">Ingredient ' + n + ' quantity</label>' +
-        '<input type="text" id="ingQty' + n + '" name="ingredient_qty[]" placeholder="Quantity"></div>' +
-        '<button type="button" class="btn-remove" aria-label="Remove ingredient ' + n + '">✕</button>';
-      list.appendChild(row);
-      const inputs = row.querySelectorAll('input');
-      if (name !== undefined) { inputs[0].value = name; inputs[1].value = qty; }
-      return row;
-    }
+    // Admin Action: Add New Recipe Prompt
+    function openAddRecipePrompt() {
+      const name = prompt("Enter recipe name:");
+      if (!name || !name.trim()) return;
 
-    document.getElementById('addIngredient').addEventListener('click', () => {
-      addRow().querySelector('input').focus();
-    });
-
-    list.addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn-remove');
-      if (!btn) return;
-      const row = btn.closest('.ingredient-row');
-      if (rowCount() === 1) {
-        row.querySelectorAll('input').forEach((inp) => { inp.value = ''; clearError(inp); });
+      const course = prompt("Enter category (Appetizer, Main Course, or Dessert):");
+      if (!["Appetizer", "Main Course", "Dessert"].includes(course)) {
+        alert("Invalid category. Please enter Appetizer, Main Course, or Dessert.");
         return;
       }
-      row.remove();
-      renumber();
-    });
 
-    /* ---------- Error helpers ---------- */
-    function clearError(field) {
-      field.classList.remove('is-invalid');
-      const msg = field.parentNode.querySelector('.field-error');
-      if (msg) msg.remove();
-    }
-    function showError(field, text) {
-      clearError(field);
-      field.classList.add('is-invalid');
-      const p = document.createElement('p');
-      p.className = 'field-error';
-      p.textContent = text;
-      field.parentNode.appendChild(p);
-    }
-    form.addEventListener('input', (e) => { if (e.target.classList.contains('is-invalid')) clearError(e.target); });
-    form.addEventListener('change', (e) => { if (e.target.classList.contains('is-invalid')) clearError(e.target); });
+      const grid = document.getElementById('recipesCatalogGrid');
+      const newId = 'REC-' + Math.floor(100 + Math.random() * 900);
+      const tagClass = course === 'Dessert' ? 'tag tag-dessert' : (course === 'Appetizer' ? 'tag tag-appetizer' : 'tag tag-main');
 
-    /* ---------- Add / Edit mode (from the link: ?mode=add or ?mode=edit) ---------- */
-    const mode = new URLSearchParams(window.location.search).get('mode') === 'edit' ? 'edit' : 'add';
-
-    document.getElementById(mode === 'edit' ? 'modeEdit' : 'modeAdd').classList.add('is-current');
-    document.getElementById(mode === 'edit' ? 'modeEdit' : 'modeAdd').setAttribute('aria-current', 'page');
-
-    if (mode === 'edit') {
-      document.title = 'Edit Recipe | RecipeFinder Admin';
-      document.getElementById('pageTitle').textContent = 'Edit Recipe';
-      document.getElementById('pageIntro').innerHTML =
-        'Update the details below and save your changes. Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.';
-      document.getElementById('crumb').textContent = 'Edit Recipe';
-      document.getElementById('navAdd').classList.remove('active');
-      navLinks.querySelector('a[href="admin.html"]').classList.add('active');
-      document.getElementById('idHint').textContent = "The system created this ID. You can't change it.";
-      document.getElementById('submitBtn').textContent = 'Save Changes';
-      deleteBtn.hidden = false;
-
-      /* sample data of an existing recipe (demo only) */
-      document.getElementById('recipeId').value = 'RCP-1001';
-      document.getElementById('recipeName').value = 'Creamy Chicken Pasta';
-      document.getElementById('course').value = 'Main Course';
-      const sample = [
-        ['Penne pasta', '250 g'], ['Chicken breast', '2 pieces'],
-        ['Heavy cream', '1 cup'], ['Garlic cloves', '3']
-      ];
-      list.innerHTML = '';
-      sample.forEach((pair) => addRow(pair[0], pair[1]));
-      document.getElementById('instructions').value =
-        'A rich and comforting pasta dish.\n' +
-        '1. Boil the pasta until al dente, then drain.\n' +
-        '2. Season and pan-fry the chicken until golden, then slice it.\n' +
-        '3. Saute the garlic, pour in the cream and simmer for 3 minutes.\n' +
-        '4. Add the pasta and chicken, toss well and serve warm.';
+      const card = document.createElement('article');
+      card.className = 'recipe-card';
+      card.id = 'card-' + newId;
+      card.innerHTML = `
+        <a href="recipe-details_2.html" class="card-image"><img src="images/chicken-pasta.jpg" alt="${name}"></a>
+        <div class="card-content">
+          <span class="${tagClass}">${course}</span>
+          <h3>${name.trim()}</h3>
+          <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: ${newId}</p>
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <a class="card-button" style="flex: 1;" href="recipe-details_2.html">View Recipe <span>→</span></a>
+          </div>
+          <div class="admin-actions-group">
+            <button type="button" class="admin-action-btn" onclick="editRecipe('${newId}', '${name.trim()}', '${course}')">Edit</button>
+            <button type="button" class="admin-action-btn admin-delete-btn" onclick="deleteRecipe('card-${newId}')">Delete</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+      updateCount();
+      alert("Recipe added successfully!");
     }
 
-    /* ---------- Validation + visible result ---------- */
-    form.addEventListener('submit', (e) => {
-      e.preventDefault(); // Phase 1: nothing is stored
-      let valid = true;
-      let firstBad = null;
+    // Admin Action: Edit Recipe Prompt
+    function editRecipe(id, currentName, currentCourse) {
+      const newName = prompt("Edit recipe name:", currentName);
+      if (newName === null || !newName.trim()) return;
 
-      function check(field, text) {
-        if (!field.value.trim()) {
-          showError(field, text);
-          valid = false;
-          if (!firstBad) firstBad = field;
-        } else {
-          clearError(field);
-        }
-      }
-
-      check(document.getElementById('recipeName'), 'Please enter the recipe name.');
-      check(document.getElementById('course'), 'Please choose a course.');
-
-      const names = list.querySelectorAll('input[name="ingredient_name[]"]');
-      const qtys = list.querySelectorAll('input[name="ingredient_qty[]"]');
-      let complete = 0;
-      names.forEach((nameInput, i) => {
-        const hasName = nameInput.value.trim() !== '';
-        const hasQty = qtys[i].value.trim() !== '';
-        clearError(nameInput);
-        clearError(qtys[i]);
-        if (hasName && hasQty) {
-          complete++;
-        } else if (hasName) {
-          showError(qtys[i], 'Add a quantity.');
-          valid = false;
-          if (!firstBad) firstBad = qtys[i];
-        } else if (hasQty) {
-          showError(nameInput, 'Add a name.');
-          valid = false;
-          if (!firstBad) firstBad = nameInput;
-        }
-      });
-      if (complete === 0 && valid) {
-        showError(names[0], 'Add at least one ingredient with its quantity.');
-        valid = false;
-        firstBad = names[0];
-      }
-
-      check(document.getElementById('instructions'), 'Please write the description / instructions.');
-
-      deleteAlert.hidden = true;
-      if (!valid) {
-        saveAlert.hidden = true;
-        if (firstBad) firstBad.focus();
+      const newCourse = prompt("Edit category (Appetizer, Main Course, or Dessert):", currentCourse);
+      if (!["Appetizer", "Main Course", "Dessert"].includes(newCourse)) {
+        alert("Invalid category.");
         return;
       }
-      saveAlert.textContent = mode === 'edit'
-        ? '✔ Changes saved. The recipe has been updated.'
-        : '✔ Recipe saved successfully. It now appears in the recipe list.';
-      saveAlert.hidden = false;
-      saveAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
 
-    deleteBtn.addEventListener('click', () => {
-      if (window.confirm('Delete this recipe? This cannot be undone.')) {
-        saveAlert.hidden = true;
-        deleteAlert.hidden = false;
-        deleteAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const card = document.getElementById('card-' + id);
+      if (card) {
+        card.querySelector('h3').textContent = newName.trim();
+        const tag = card.querySelector('.tag');
+        tag.textContent = newCourse;
+        tag.className = newCourse === 'Dessert' ? 'tag tag-dessert' : (newCourse === 'Appetizer' ? 'tag tag-appetizer' : 'tag tag-main');
+        
+        // Update edit button onclick parameter
+        const editBtn = card.querySelector('.admin-action-btn:not(.admin-delete-btn)');
+        editBtn.setAttribute('onclick', `editRecipe('${id}', '${newName.trim()}', '${newCourse}')`);
+        alert("Recipe updated successfully!");
       }
-    });
+    }
+
+    // Admin Action: Delete Recipe
+    function deleteRecipe(cardId) {
+      if (confirm("Are you sure you want to delete this recipe?")) {
+        const card = document.getElementById(cardId);
+        if (card) {
+          card.remove();
+          updateCount();
+        }
+      }
+    }
+
+    function updateCount() {
+      const count = document.querySelectorAll('#recipesCatalogGrid .recipe-card').length;
+      document.getElementById('resultCountLabel').textContent = `Showing ${count} Results`;
+    }
   </script>
 </body>
 </html>
