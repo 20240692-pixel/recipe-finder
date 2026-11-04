@@ -3,11 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Browse and explore all delicious recipes on RecipeFinder.">
+  <meta name="description" content="Browse, search, and filter all delicious recipes on RecipeFinder.">
   <title>Explore Recipes | RecipeFinder</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/recipes-page.css">
 </head>
-<body>
+<body data-role="user">
+
+  <!-- ================= Prototype Role & State Switcher ================= -->
+  <div class="role-switcher-bar" role="region" aria-label="Prototype Role Switcher">
+    <div class="container role-switcher-inner">
+      <span class="role-proto-label">Phase 1 Prototype View:</span>
+      <div class="role-switcher-controls">
+        <label for="roleSelector">Navigation Role:</label>
+        <select id="roleSelector" onchange="document.body.setAttribute('data-role', this.value)">
+          <option value="guest">Guest</option>
+          <option value="user" selected>Regular User</option>
+          <option value="admin">Administrator</option>
+        </select>
+
+        <label class="empty-toggle-label" for="emptyStateToggle">
+          <input type="checkbox" id="emptyStateToggle" onchange="toggleEmptyPreview(this.checked)">
+          Preview "No Results" State
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Site Header ================= -->
   <header class="site-header">
     <div class="container navbar">
       <a class="brand" href="index.html" aria-label="RecipeFinder home">
@@ -15,99 +38,217 @@
         <span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
       </a>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
       <nav class="nav-links" id="navLinks" aria-label="Main navigation">
         <a href="index.html">Home</a>
-        <a class="active" href="recipes.html">Explore Recipes</a>
-        <a href="favorites.html">Favorites</a>
+        <a class="active" href="recipes.html" aria-current="page">Explore Recipes</a>
+        <a class="nav-user-only" href="favorites.html">Favorites <span class="fav-count-pill" id="navFavCount">3</span></a>
+        <a class="nav-admin-only" href="admin.html">Admin Dashboard</a>
+        <a class="nav-admin-only" href="add-edit-recipe.html">Add Recipe</a>
       </nav>
-      <div class="auth-links">
+
+      <div class="auth-links nav-guest-only">
         <a class="btn btn-outline" href="login.html">Login</a>
         <a class="btn btn-orange" href="signup.html">Sign Up</a>
+      </div>
+
+      <div class="auth-links nav-logged-in">
+        <a class="btn btn-outline" href="login.html">Logout</a>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- ================= search & filter bar section ================= -->
-    <section class="search-section container" aria-label="Filter recipes" style="margin-top: 30px;">
-      <form class="search-bar" action="recipes.html" method="get">
-        <label class="search-input"><span aria-hidden="true">⌕</span><input type="search" name="q" placeholder="Search by name or ingredient..." aria-label="Search recipes"></label>
-        <label class="course-select"><span class="sr-only">Recipe course</span>
-          <select name="course">
-            <option value="">All Courses</option>
-            <option value="Appetizer">Appetizer</option>
-            <option value="Main Course">Main Course</option>
-            <option value="Dessert">Dessert</option>
-          </select>
-        </label>
-        <button class="btn btn-green search-button" type="submit">Filter</button>
+    <!-- ================= Search & Filter Bar Section ================= -->
+    <section class="search-section container browse-search-section" aria-labelledby="filterHeading">
+      <div class="browse-intro">
+        <h1 id="filterHeading"><span class="leaf" aria-hidden="true">❧</span> Browse &amp; Search Recipes</h1>
+        <p>Find dishes by recipe name, ingredients on hand, or meal course.</p>
+      </div>
+
+      <form class="search-bar browse-search-form" id="recipeSearchForm" action="recipes.html" method="get">
+        <div class="search-field-group">
+          <label for="searchName" class="visible-field-label">Recipe Name</label>
+          <div class="search-input">
+            <span aria-hidden="true">⌕</span>
+            <input type="search" id="searchName" name="recipe_name" placeholder="e.g., Chicken Pasta, Pancakes...">
+          </div>
+        </div>
+
+        <div class="search-field-group">
+          <label for="searchIngredient" class="visible-field-label">Ingredient</label>
+          <div class="search-input">
+            <span aria-hidden="true">🥕</span>
+            <input type="text" id="searchIngredient" name="ingredient" placeholder="e.g., Garlic, Berries, Feta...">
+          </div>
+        </div>
+
+        <div class="search-field-group">
+          <label for="searchCourse" class="visible-field-label">Course</label>
+          <div class="course-select">
+            <select id="searchCourse" name="course">
+              <option value="">All Courses</option>
+              <option value="Appetizer">Appetizer</option>
+              <option value="Main Course">Main Course</option>
+              <option value="Dessert">Dessert</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-actions-group">
+          <button class="btn btn-green search-button" type="submit">Filter</button>
+          <button class="btn btn-outline reset-button" type="reset" id="resetFiltersBtn">Reset</button>
+        </div>
       </form>
     </section>
 
-    <!-- ================= complete recipe catalog  ================= -->
+    <!-- ================= Complete Recipe Catalog ================= -->
     <section class="popular-section container">
       <div class="section-heading">
         <h2><span class="leaf" aria-hidden="true">❧</span> All Recipes Catalog</h2>
-        <span class="text-link">Showing 4 Results</span>
+        <span class="text-link" id="resultsCounter" aria-live="polite">Showing 4 Results</span>
       </div>
 
-      <div class="recipe-grid">
-        <!-- ================= recipe 1: pasta ================= -->
-        <article class="recipe-card">
-          <a href="recipe-details.html#pasta" class="card-image"><img src="images/chicken-pasta.jpg" alt="Creamy chicken pasta"></a>
+      <div class="recipe-grid" id="recipeGrid">
+        <!-- ================= Recipe 1: Pasta (Saved in Favorites) ================= -->
+        <article class="recipe-card" data-name="creamy chicken pasta" data-course="Main Course" data-ingredients="chicken breast penne pasta heavy cream garlic parmesan">
+          <a href="recipe-details.html#pasta" class="card-image">
+            <img src="images/chicken-pasta.jpg" alt="Creamy chicken pasta">
+          </a>
           <div class="card-content">
             <span class="tag tag-main">Main Course</span>
             <h3>Creamy Chicken Pasta</h3>
-            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-101</p>
-            <a class="card-button" href="recipe-details.html#pasta">View Recipe <span>→</span></a>
+            <p class="card-id">ID: REC-101</p>
+            <p class="card-desc">Tender seared chicken tossed with penne pasta in a rich garlic parmesan cream sauce.</p>
+            <ul class="card-ingredients" aria-label="Key ingredients">
+              <li><span>Chicken Breast</span> <strong>300g</strong></li>
+              <li><span>Penne Pasta</span> <strong>250g</strong></li>
+              <li><span>Heavy Cream</span> <strong>1 cup</strong></li>
+            </ul>
+            <div class="card-actions">
+              <a class="card-button" href="recipe-details.html#pasta">View Recipe <span>→</span></a>
+              <button type="button" class="btn-fav is-saved nav-user-only" aria-pressed="true" onclick="toggleFavorite(this)">
+                ♥ Saved
+              </button>
+              <a class="card-button nav-admin-only" href="add-edit-recipe.html?id=REC-101">Edit</a>
+            </div>
           </div>
         </article>
 
-        <!-- ================= recipe 2: pancakes ================= -->
-        <article class="recipe-card">
-          <a href="recipe-details.html#pancakes" class="card-image"><img src="images/pancakes.jpg" alt="Fluffy pancakes"></a>
+        <!-- ================= Recipe 2: Pancakes (Saved in Favorites) ================= -->
+        <article class="recipe-card" data-name="fluffy pancakes" data-course="Dessert" data-ingredients="all-purpose flour milk eggs butter fresh berries maple syrup">
+          <a href="recipe-details.html#pancakes" class="card-image">
+            <img src="images/pancakes.jpg" alt="Fluffy pancakes topped with berries">
+          </a>
           <div class="card-content">
             <span class="tag tag-dessert">Dessert</span>
             <h3>Fluffy Pancakes</h3>
-            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-102</p>
-            <a class="card-button" href="recipe-details.html#pancakes">View Recipe <span>→</span></a>
+            <p class="card-id">ID: REC-102</p>
+            <p class="card-desc">Golden, airy buttermilk pancakes stacked high and topped with fresh berries and warm syrup.</p>
+            <ul class="card-ingredients" aria-label="Key ingredients">
+              <li><span>Flour</span> <strong>1.5 cups</strong></li>
+              <li><span>Whole Milk</span> <strong>1.25 cups</strong></li>
+              <li><span>Fresh Berries</span> <strong>1 cup</strong></li>
+            </ul>
+            <div class="card-actions">
+              <a class="card-button" href="recipe-details.html#pancakes">View Recipe <span>→</span></a>
+              <button type="button" class="btn-fav is-saved nav-user-only" aria-pressed="true" onclick="toggleFavorite(this)">
+                ♥ Saved
+              </button>
+              <a class="card-button nav-admin-only" href="add-edit-recipe.html?id=REC-102">Edit</a>
+            </div>
           </div>
         </article>
 
-        <!-- ================= recipe 3: greek salad ================= -->
-        <article class="recipe-card">
-          <a href="recipe-details.html#salad" class="card-image"><img src="images/greek-salad.jpg" alt="Fresh Greek salad"></a>
+        <!-- ================= Recipe 3: Greek Salad (Saved in Favorites) ================= -->
+        <article class="recipe-card" data-name="greek salad" data-course="Appetizer" data-ingredients="cucumber tomatoes feta cheese kalamata olives olive oil">
+          <a href="recipe-details.html#salad" class="card-image">
+            <img src="images/greek-salad.jpg" alt="Fresh Greek salad">
+          </a>
           <div class="card-content">
             <span class="tag tag-appetizer">Appetizer</span>
             <h3>Greek Salad</h3>
-            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-103</p>
-            <a class="card-button" href="recipe-details.html#salad">View Recipe <span>→</span></a>
+            <p class="card-id">ID: REC-103</p>
+            <p class="card-desc">Crisp cucumbers, ripe tomatoes, Kalamata olives, and tangy feta dressed in oregano olive oil.</p>
+            <ul class="card-ingredients" aria-label="Key ingredients">
+              <li><span>Cucumber &amp; Tomatoes</span> <strong>2 cups</strong></li>
+              <li><span>Feta Cheese</span> <strong>100g</strong></li>
+              <li><span>Olive Oil</span> <strong>2 tbsp</strong></li>
+            </ul>
+            <div class="card-actions">
+              <a class="card-button" href="recipe-details.html#salad">View Recipe <span>→</span></a>
+              <button type="button" class="btn-fav is-saved nav-user-only" aria-pressed="true" onclick="toggleFavorite(this)">
+                ♥ Saved
+              </button>
+              <a class="card-button nav-admin-only" href="add-edit-recipe.html?id=REC-103">Edit</a>
+            </div>
           </div>
         </article>
 
-        <!-- ================= recipe 4: chocolate cake ================= -->
-        <article class="recipe-card">
-          <a href="recipe-details.html#cake" class="card-image"><img src="images/chocolate-cake.jpg" alt="Chocolate cake slice"></a>
+        <!-- ================= Recipe 4: Chocolate Cake (Not Saved Yet - Default State) ================= -->
+        <article class="recipe-card" data-name="chocolate cake" data-course="Dessert" data-ingredients="dark cocoa powder flour sugar eggs butter chocolate ganache">
+          <a href="recipe-details.html#cake" class="card-image">
+            <img src="images/chocolate-cake.jpg" alt="Chocolate cake slice">
+          </a>
           <div class="card-content">
             <span class="tag tag-dessert">Dessert</span>
             <h3>Chocolate Cake</h3>
-            <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">ID: REC-104</p>
-            <a class="card-button" href="recipe-details.html#cake">View Recipe <span>→</span></a>
+            <p class="card-id">ID: REC-104</p>
+            <p class="card-desc">Decadent moist double-layer dark chocolate cake coated in smooth fudge ganache.</p>
+            <ul class="card-ingredients" aria-label="Key ingredients">
+              <li><span>Cocoa Powder</span> <strong>0.75 cup</strong></li>
+              <li><span>All-Purpose Flour</span> <strong>1.75 cups</strong></li>
+              <li><span>Dark Chocolate</span> <strong>150g</strong></li>
+            </ul>
+            <div class="card-actions">
+              <a class="card-button" href="recipe-details.html#cake">View Recipe <span>→</span></a>
+              <button type="button" class="btn-fav nav-user-only" aria-pressed="false" onclick="toggleFavorite(this)">
+                ♡ Favorite
+              </button>
+              <a class="card-button nav-admin-only" href="add-edit-recipe.html?id=REC-104">Edit</a>
+            </div>
           </div>
         </article>
+      </div>
+
+      <!-- ================= Required Empty / No-Results State ================= -->
+      <div class="empty-results-box" id="emptyResultsBox" hidden aria-live="polite">
+        <div class="empty-results-icon" aria-hidden="true">🍲</div>
+        <h3>No Matching Recipes Found</h3>
+        <p>We couldn't find any recipes matching your search criteria. Try clearing your filters or searching for another ingredient.</p>
+        <button type="button" class="btn btn-orange" onclick="resetRecipeSearch()">Reset All Filters</button>
       </div>
     </section>
   </main>
 
+  <!-- ================= Site Footer ================= -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <a class="brand footer-brand" href="index.html">
-        <span class="brand-icon" aria-hidden="true">🍴</span><span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
+        <span class="brand-icon" aria-hidden="true">🍴</span>
+        <span class="brand-copy"><strong>Recipe<span>Finder</span></strong><small>Good Food • Happy Mood</small></span>
       </a>
       <p class="footer-about">RecipeFinder is your go-to place for delicious and easy-to-make recipes. Discover, cook, and enjoy the best food experiences.</p>
-      <div><h3>Quick Links</h3><a href="index.html">Home</a><a href="recipes.html">Explore Recipes</a><a href="favorites.html">Favorites</a></div>
-      <div><h3>About Us</h3><a href="#about">Our Story</a><a href="#contact">Contact Us</a><a href="#faq">FAQ</a></div>
-      <div><h3>Follow Us</h3><div class="social-links"><a href="#facebook" aria-label="Facebook">f</a><a href="#instagram" aria-label="Instagram">◎</a><a href="#youtube" aria-label="YouTube">▶</a></div></div>
+      <div>
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="recipes.html">Explore Recipes</a>
+        <a href="favorites.html">Favorites</a>
+      </div>
+      <div>
+        <h3>About Us</h3>
+        <a href="#about">Our Story</a>
+        <a href="#contact">Contact Us</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#facebook" aria-label="Facebook">f</a>
+          <a href="#instagram" aria-label="Instagram">◎</a>
+          <a href="#youtube" aria-label="YouTube">▶</a>
+        </div>
+      </div>
     </div>
     <div class="container copyright">© 2026 RecipeFinder. All rights reserved.</div>
   </footer>
@@ -120,6 +261,73 @@
         const isOpen = navLinks.classList.toggle('show');
         menuToggle.setAttribute('aria-expanded', String(isOpen));
       });
+    }
+
+    const searchForm = document.getElementById('recipeSearchForm');
+    const resetBtn = document.getElementById('resetFiltersBtn');
+    const recipeCards = document.querySelectorAll('#recipeGrid .recipe-card');
+    const recipeGrid = document.getElementById('recipeGrid');
+    const emptyBox = document.getElementById('emptyResultsBox');
+    const resultsCounter = document.getElementById('resultsCounter');
+    const emptyToggle = document.getElementById('emptyStateToggle');
+
+    function filterRecipes() {
+      const nameVal = document.getElementById('searchName').value.trim().toLowerCase();
+      const ingVal = document.getElementById('searchIngredient').value.trim().toLowerCase();
+      const courseVal = document.getElementById('searchCourse').value;
+      let count = 0;
+
+      recipeCards.forEach(card => {
+        const matchName = !nameVal || card.dataset.name.toLowerCase().includes(nameVal);
+        const matchIng = !ingVal || card.dataset.ingredients.toLowerCase().includes(ingVal);
+        const matchCourse = !courseVal || card.dataset.course === courseVal;
+
+        if (matchName && matchIng && matchCourse) {
+          card.hidden = false;
+          count++;
+        } else {
+          card.hidden = true;
+        }
+      });
+
+      recipeGrid.hidden = (count === 0);
+      emptyBox.hidden = (count > 0);
+      emptyToggle.checked = (count === 0);
+      resultsCounter.textContent = `Showing ${count} Result${count === 1 ? '' : 's'}`;
+    }
+
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      filterRecipes();
+    });
+
+    function resetRecipeSearch() {
+      searchForm.reset();
+      emptyToggle.checked = false;
+      filterRecipes();
+    }
+
+    resetBtn.addEventListener('click', () => {
+      setTimeout(resetRecipeSearch, 0);
+    });
+
+    function toggleEmptyPreview(showEmpty) {
+      if (showEmpty) {
+        recipeGrid.hidden = true;
+        emptyBox.hidden = false;
+        resultsCounter.textContent = 'Showing 0 Results';
+      } else {
+        filterRecipes();
+      }
+    }
+
+    function toggleFavorite(btn) {
+      const isSaved = btn.classList.toggle('is-saved');
+      btn.setAttribute('aria-pressed', String(isSaved));
+      btn.textContent = isSaved ? '♥ Saved' : '♡ Favorite';
+      const savedCount = document.querySelectorAll('.btn-fav.is-saved').length;
+      const badge = document.getElementById('navFavCount');
+      if (badge) badge.textContent = savedCount;
     }
   </script>
 </body>
